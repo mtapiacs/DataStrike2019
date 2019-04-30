@@ -10,7 +10,7 @@ class Robot2():
     def __init__(self):
         pass
 
-    def my_turn(self, stats, team, loc, hp, data):
+    def my_turn(self, stats, team, loc, hp, type, data):
         #Type your player code here for each turn
 
         #Random Movement

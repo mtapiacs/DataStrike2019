@@ -30,13 +30,16 @@ class Game():
         #Red Turns
         for o in self.world_objects:
             if o.get_team() == "R":
-                my_action = self.bot_list[0].my_turn(self.game_stats, o.get_team(),o.get_location(),o.get_hp(), self.team_data[0])
-                o.take_action(my_action)
+                my_action = self.bot_list[0].my_turn(self.game_stats, o.get_team(),o.get_location(),o.get_hp(), o.get_type(), self.team_data[0])
+                o.take_action(my_action, self.world_objects, "R", self.players[0])
+                self.team_data[0] = my_action[1]
 
         #Blue Turns
         for o in self.world_objects:
             if o.get_team() == "B":
-                pass
+                my_action = self.bot_list[0].my_turn(self.game_stats, o.get_team(),o.get_location(),o.get_hp(), o.get_type(), self.team_data[1])
+                o.take_action(my_action, self.world_objects, "B", self.players[1])
+                self.team_data[1] = my_action[1]
 
     def create_new_world_object(self, object_icon, location):
         pass

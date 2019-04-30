@@ -10,11 +10,6 @@ The GAME object will:
 Every turn:
     -Call code on each item of object array
 
-Data You Have Access To:
-    myHealth
-    myLocation
-    game_stats
-
 Turn Actions:
     build(loc, type)
         Param: loc (x, y), Robot Type

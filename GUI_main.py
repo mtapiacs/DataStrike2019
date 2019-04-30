@@ -59,9 +59,11 @@ while not done:
             done = True
     while round_count < 100:
         screen.fill(bg_color)
+        game_objects_import = campaign.get_game_objects()
         display_objects = []
         load_images()
         place_images()
+        campaign.run_round()
         #screen.blit(image_list[0],(0, y_test))
         #y_test += 40
         round_count += 1

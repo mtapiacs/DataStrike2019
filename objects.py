@@ -57,6 +57,10 @@ class Soldier(Unit):
                         return True
         return False
 
+    def take_action(self, list, objects, color, player):
+        if 'move' in list[0]:
+            self.move(list[0]['move'], objects)
+
 class Base(Unit):
     def __init__(self, t, loc, color, i):
         self.hp = 300
@@ -93,6 +97,11 @@ class Base(Unit):
                             objects.append(Miner("Miner",loc,color,"RM"))
 
                         return objects
+
+    def take_action(self, list, objects, color, player):
+        if 'build' in list[0]:
+            self.build(list[0]['build'][1], color ,list[0]['build'][0] ,objects)
+
        
 
 class Wizard(Unit):
@@ -121,6 +130,11 @@ class Wizard(Unit):
                         self.location = loc
                         return True
         return False
+
+    def take_action(self, list, objects, color, player):
+        if 'move' in list[0]:
+            self.move(list[0]['move'], objects)
+
 
 class Miner(Unit):
     def __init__(self, t, loc, color, i):
@@ -154,6 +168,11 @@ class Miner(Unit):
             if o.get_location() == loc:
                 if o.get_type() == "Rock" or o.get_type() == "Tree":
                     o.harvest(20, player)
+
+    def take_action(self, list, objects, color, player):
+        if 'move' in list[0]:
+            self.move(list[0]['move'], objects)
+
         
 
 class Resource(GameObject):
