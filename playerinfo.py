@@ -6,9 +6,18 @@ class Player():
         self.team_name = name
 
     def player_turn(self):
-        
-        return 
+        #In PROGRESS
+        pass
 
     def create_soldier(self):
-        #Experimental
+        #IN PROGRESS
         pass
+
+    def get_resources(self):
+        return self.resources
+
+    def get_color(self):
+        return self.game_color
+
+    def get_name(self):
+        return self.team_name

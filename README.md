@@ -8,7 +8,7 @@ The GAME object will:
     -create two players
 
 Every turn:
-    -Call code on each itrm of object array
+    -Call code on each item of object array
 
 Classes:
     -GameObject

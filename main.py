@@ -8,5 +8,5 @@ from gameinfo import Game
 #create game instance
 campaign = Game()
 campaign.print_game_map()
-campaign.create_new_world_object("RS", [1, 10])
-campaign.print_game_map()
+print(campaign.get_game_objects())
+print(campaign.get_game_stats())
