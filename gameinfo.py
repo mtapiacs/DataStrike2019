@@ -9,8 +9,8 @@ class Game():
         self.world_objects = {}
         self.p1 = Player(200, self.game_map.object_lookup("R"), "Red", "Player 1")
         self.p2 = Player(200, self.game_map.object_lookup("B"), "Blue", "Player 2")
-        self.red_robot_count = 2
-        self.blue_robot_count = 2
+        #self.red_robot_count = 0
+        #self.blue_robot_count = 0
 
     #Won't work because place_object is changed
     def create_new_world_object(self, object_icon, location):

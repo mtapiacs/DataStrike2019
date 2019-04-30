@@ -1,3 +1,5 @@
+import objects
+
 class Robot():
     def __init__(self, type):
         self.my_type = type
