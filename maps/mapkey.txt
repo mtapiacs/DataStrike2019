@@ -1,0 +1,18 @@
+Resources Objects
+
+QU:Quartz
+TR:Tree
+
+-----------------------
+
+Unit Objects
+
+BB:Blue Base
+BS:Blue Soldier
+BW:Blue Wizard
+BM:Blue Miner
+
+RB:Red Base
+RS:Red Soldier
+RW:Red Wizard
+RM:Red Miner
