@@ -6,7 +6,7 @@ import random
 #list[0]: DICT, KEY: action (see Readme), VALUE: Needed Param for method
 #list[1]: data
 
-class Robot1():
+class Robot2():
     def __init__(self):
         pass
 

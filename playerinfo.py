@@ -1,16 +1,11 @@
 class Player():
-    def __init__(self, r, startp, color, name):
+    def __init__(self, r, color, name):
         self.resources = r
-        self.start_positions = startp
         self.game_color = color
         self.team_name = name
 
-    def player_turn(self):
+    def player_turn(self, game_stats):
         #In PROGRESS
-        pass
-
-    def create_soldier(self):
-        #IN PROGRESS
         pass
 
     def get_resources(self):
@@ -21,3 +16,6 @@ class Player():
 
     def get_name(self):
         return self.team_name
+
+    def add_resources(self, amount):
+        self.resources += amount

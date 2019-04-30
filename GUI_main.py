@@ -46,15 +46,6 @@ def load_images():
         elif item == "RM":
             display_objects.append([translate_location(o.get_location()),ss.get_image(69,322,25,25,(255,0,0))])
 
-    #DELETE if above code works
-    #image_list["QU"] = 
-    #image_list.append(ss.get_image(4,4,25,25,(255,0,0)))
-    #image_list.append(ss.get_image(0,0,33,33,(255,0,0)))
-    #image_list.append(ss.get_image(0,0,33,33,(255,0,0)))
-    #image_list.append(pygame.image.load('./images/base.png').convert())
-    #image_list.append(pygame.image.load('./images/base.png').convert())
-    #image_list.append(pygame.image.load('./images/base.png').convert())
-
 def place_images():
     for i in display_objects:
         #Paramters: image, position
