@@ -26,6 +26,12 @@ class GameObject():
     def get_icon(self):
         return self.icon
 
+    def set_icon(self, i):
+        self.icon = i
+    
+    def get_location_string(self):
+        return "(" + str(self.location[0]) + "," + str(self.location[1]) + ")"
+
 class Unit(GameObject):
     def __init__(self, t, loc, color, i):
         super(Unit, self).__init__(t, loc, color, i)
@@ -36,10 +42,20 @@ class Soldier(Unit):
         self.ap = 30
         self.mp = 0
         self.move_max = 1
+        self.attack_max = 1
+        self.vision = 5
+        self.alive = True
         super(Soldier, self).__init__(t, loc, color, i)
 
     def get_hp(self):
-        return self.hp
+        return self.hp  
+
+    def modify_hp(self, mod):
+        self.hp += mod
+        if self.hp <= 0:
+            self.alive = False
+        if self.hp < 0:
+            self.hp = 0
 
     def move(self, loc, objects):
         #Checks if various conditions are met
@@ -47,19 +63,41 @@ class Soldier(Unit):
         canMove = True
         for o in objects:
             if o.get_location() == loc:
-                False
+                canMove = False
 
         if canMove:
-            if (0 <= loc[0] <= 20) and (0 <= loc[1] <= 20):
+            if (0 <= loc[0] < 20) and (0 <= loc[1] < 20):
                 if (int(loc[0]) == loc[0]) and (int(loc[1]) == loc[1]):
                     if (abs(loc[0] - self.location[0]) <= self.move_max) and (abs(loc[1] - self.location[1]) <= self.move_max):
                         self.location = loc
                         return True
         return False
 
+    def strike(self, loc, objects):
+        #Checks for valid location
+        validLoc = False
+        if (0 <= loc[0] < 20) and (0 <= loc[1] < 20):
+            if (int(loc[0]) == loc[0]) and (int(loc[1]) == loc[1]):
+                if (abs(loc[0] - self.location[0]) <= self.attack_max) and (abs(loc[1] - self.location[1]) <= self.attack_max):
+                    validLoc = True
+
+        #Checks if object can be attacked
+        canStrike = False
+        if validLoc:
+            for o in objects:
+                if o.get_location() == loc:
+                    if o.get_type() in ["Soldier","Wizard","Miner","Base"]:
+                        o.modify_hp(-self.ap)
+                        canStrike = True
+
+        return canStrike
+
     def take_action(self, list, objects, color, player):
-        if 'move' in list[0]:
-            self.move(list[0]['move'], objects)
+        if self.alive:
+            if 'move' in list[0]:
+                self.move(list[0]['move'], objects)
+            elif 'strike' in list[0]:
+                self.strike(list[0]['strike'], objects)
 
 class Base(Unit):
     def __init__(self, t, loc, color, i):
@@ -68,10 +106,18 @@ class Base(Unit):
         self.mp = 0
         self.move_max = 0
         self.build_max = 1
+        self.alive = True
         super(Base, self).__init__(t, loc, color, i)
 
     def get_hp(self):
-        return self.hp
+        return self.hp  
+
+    def modify_hp(self, mod):
+        self.hp += mod
+        if self.hp <= 0:
+            self.alive = False
+        if self.hp < 0:
+            self.hp = 0
 
     def build(self, type, color, loc, objects):
         canBuild = True
@@ -80,7 +126,7 @@ class Base(Unit):
                 canBuild = False
 
         if canBuild:
-            if (0 <= loc[0] <= 20) and (0 <= loc[1] <= 20):
+            if (0 <= int(loc[0]) < 20) and (0 <= int(loc[1]) < 20):
                 if (int(loc[0]) == loc[0]) and (int(loc[1]) == loc[1]):
                     if (abs(loc[0] - self.location[0]) <= self.build_max) and (abs(loc[1] - self.location[1]) <= self.build_max):
                         if type == "Soldier" and color == "B":
@@ -99,10 +145,9 @@ class Base(Unit):
                         return objects
 
     def take_action(self, list, objects, color, player):
-        if 'build' in list[0]:
-            self.build(list[0]['build'][1], color ,list[0]['build'][0] ,objects)
-
-       
+        if self.alive:
+            if 'build' in list[0]:
+                self.build(list[0]['build'][0], color ,list[0]['build'][1] ,objects)
 
 class Wizard(Unit):
     def __init__(self, t, loc, color, i):
@@ -110,10 +155,20 @@ class Wizard(Unit):
         self.ap = 0
         self.mp = 60
         self.move_max = 3
+        self.attack_max = 3
+        self.vision = 8
+        self.alive = True
         super(Wizard, self).__init__(t, loc, color, i)
 
     def get_hp(self):
-        return self.hp
+        return self.hp  
+
+    def modify_hp(self, mod):
+        self.hp += mod
+        if self.hp <= 0:
+            self.alive = False
+        if self.hp < 0:
+            self.hp = 0
 
     def move(self, loc, objects):
         #Checks if various conditions are met
@@ -121,19 +176,41 @@ class Wizard(Unit):
         canMove = True
         for o in objects:
             if o.get_location() == loc:
-                False
+                canMove = False
 
         if canMove:
-            if (0 <= loc[0] <= 20) and (0 <= loc[1] <= 20):
+            if (0 <= loc[0] < 20) and (0 <= loc[1] < 20):
                 if (int(loc[0]) == loc[0]) and (int(loc[1]) == loc[1]):
                     if (abs(loc[0] - self.location[0]) <= self.move_max) and (abs(loc[1] - self.location[1]) <= self.move_max):
                         self.location = loc
                         return True
         return False
 
+    def cast(self, loc, objects):
+        #Checks for valid location
+        validLoc = False
+        if (0 <= loc[0] < 20) and (0 <= loc[1] < 20):
+            if (int(loc[0]) == loc[0]) and (int(loc[1]) == loc[1]):
+                if (abs(loc[0] - self.location[0]) <= self.attack_max) and (abs(loc[1] - self.location[1]) <= self.attack_max):
+                    validLoc = True
+
+        #Checks if object can be attacked
+        canCast = False
+        if validLoc:
+            for o in objects:
+                if o.get_location() == loc:
+                    if o.get_type() in ["Soldier","Wizard","Miner","Base"]:
+                        o.modify_hp(-self.mp)
+                        canCast = True
+
+        return canCast
+
     def take_action(self, list, objects, color, player):
-        if 'move' in list[0]:
-            self.move(list[0]['move'], objects)
+        if self.alive:
+            if 'move' in list[0]:
+                self.move(list[0]['move'], objects)
+            elif 'cast' in list[0]:
+                self.cast(list[0]['cast'], objects)
 
 
 class Miner(Unit):
@@ -142,10 +219,18 @@ class Miner(Unit):
         self.ap = 0
         self.mp = 0
         self.move_max = 1
+        self.alive = True
         super(Miner, self).__init__(t, loc, color, i)
 
     def get_hp(self):
-        return self.hp
+        return self.hp  
+
+    def modify_hp(self, mod):
+        self.hp += mod
+        if self.hp <= 0:
+            self.alive = False
+        if self.hp < 0:
+            self.hp = 0
 
     def move(self, loc, objects):
         #Checks if various conditions are met
@@ -153,28 +238,30 @@ class Miner(Unit):
         canMove = True
         for o in objects:
             if o.get_location() == loc:
-                False
+                canMove = False
 
         if canMove:
-            if (0 <= loc[0] <= 20) and (0 <= loc[1] <= 20):
+            if (0 <= loc[0] < 20) and (0 <= loc[1] < 20):
                 if (int(loc[0]) == loc[0]) and (int(loc[1]) == loc[1]):
                     if (abs(loc[0] - self.location[0]) <= self.move_max) and (abs(loc[1] - self.location[1]) <= self.move_max):
                         self.location = loc
                         return True
         return False
 
-    def mine(self, loc, objects, team, player):
+    def gather(self, loc, objects, player):
         for o in objects:
             if o.get_location() == loc:
                 if o.get_type() == "Rock" or o.get_type() == "Tree":
                     o.harvest(20, player)
 
     def take_action(self, list, objects, color, player):
-        if 'move' in list[0]:
-            self.move(list[0]['move'], objects)
+        if self.alive:
+            if 'move' in list[0]:
+                self.move(list[0]['move'], objects)
+            if 'gather' in list[0]:
+                self.gather(list[0]['gather'], objects, player)
 
-        
-
+    
 class Resource(GameObject):
     def __init__(self, t, loc, color, i):
         super(Resource, self).__init__(t, loc, color, i)
@@ -187,14 +274,13 @@ class Rock(Resource):
     def harvest(self, amount, player):
         if self.minerals >= 20:
             self.minerals -= amount
-            player.add_resources(amount)
+            player.mod_resources(amount)
         elif 0 < self.minerals < 20:
-            player.add_resources(self.minerals)
+            player.mod_resources(self.minerals)
             self.minerals = 0
-        elif self.minerals == 0:
-            print("Out of Minerals")
-        
-
+    
+    def get_minerals(self):
+        return self.minerals
     
 class Tree(Resource):
     def __init__(self, t, loc, color, i):
@@ -202,8 +288,15 @@ class Tree(Resource):
         super(Tree, self).__init__(t, loc, color, i)
 
     def harvest(self, amount, player):
-        self.minerals -= amount
-        player.add_resources(amount)
+        if self.minerals >= 20:
+            self.minerals -= amount
+            player.mod_resources(amount)
+        elif 0 < self.minerals < 20:
+            player.mod_resources(self.minerals)
+            self.minerals = 0
+
+    def get_minerals(self):
+        return self.minerals
 
         
 

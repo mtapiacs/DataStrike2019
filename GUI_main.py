@@ -51,24 +51,37 @@ def place_images():
         #Paramters: image, position
         screen.blit(i[1],i[0])
 
-round_count = 0
+round_count = 1
+myfont1 = pygame.font.SysFont('Comic Sans MS', 80)
+textsurface1 = myfont1.render('RED WINS!', False, (255, 0, 0))
+myfont2 = pygame.font.SysFont('Comic Sans MS', 30)
+textsurface2 = myfont2.render('BLUE WINS!', False, (0, 0, 255))
+winner = "None"
 
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
-    while round_count < 100:
+    
+    if round_count <= 300:
+        campaign.run_round()
         screen.fill(bg_color)
         game_objects_import = campaign.get_game_objects()
         display_objects = []
         load_images()
         place_images()
-        campaign.run_round()
+        #campaign.run_round()
         #screen.blit(image_list[0],(0, y_test))
         #y_test += 40
         round_count += 1
         
     pygame.display.flip()
+    if winner == "None":
+        winner = campaign.determine_winner()
+    if winner == "R":
+        screen.blit(textsurface1,(0,0))
+    elif winner == "B":
+        screen.blit(textsurface2,(0,0))        
 
-    clock.tick(1)
+    clock.tick(4)
 
