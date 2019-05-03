@@ -34,9 +34,11 @@ class Game():
     def run_round(self):
         #Red Turns
         for o in self.world_objects:
+            gs = self.game_stats.copy()
+            wo = self.world_objects.copy()
             if o.get_team() == "R":
                 #Run player code to determine action
-                my_action = self.bot_list[0].my_turn(self.game_stats, o.get_team(),o.get_location(),o.get_hp(), o.get_type(), self.team_data[0])
+                my_action = self.bot_list[0].my_turn(gs, o.get_team(),o.get_location(),o.get_hp(), o.get_type(), self.team_data[0], wo)
                 o.take_action(my_action, self.world_objects, "R", self.players[1])
                 #Update game elements if action is successful (not needed for movement)
                 #self.handle_action(my_action, o.take_action(my_action, self.world_objects, "R", self.players[0]))
@@ -44,8 +46,9 @@ class Game():
 
         #Blue Turns
         for o in self.world_objects:
+            gs = self.game_stats.copy()
             if o.get_team() == "B":
-                my_action = self.bot_list[1].my_turn(self.game_stats, o.get_team(),o.get_location(),o.get_hp(), o.get_type(), self.team_data[1])
+                my_action = self.bot_list[1].my_turn(gs, o.get_team(),o.get_location(),o.get_hp(), o.get_type(), self.team_data[1], wo)
                 o.take_action(my_action, self.world_objects, "B", self.players[1])
                 #self.handle_action(my_action, o.take_action(my_action, self.world_objects, "B", self.players[0]))
                 self.team_data[1] = my_action[1]

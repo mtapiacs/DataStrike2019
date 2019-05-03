@@ -11,7 +11,7 @@ class Robot1():
     def __init__(self):
         pass
 
-    def my_turn(self, stats, team, loc, hp, type, data):
+    def my_turn(self, stats, team, loc, hp, type, data, world):
 
         #Type your player code here for each turn
         #RED
@@ -33,7 +33,8 @@ class Robot2():
     def __init__(self):
         pass
 
-    def my_turn(self, stats, team, loc, hp, type, data):
+    def my_turn(self, stats, team, loc, hp, type, data, world):
+        stats["round"] = 500
         #BLUE
         #Type your player code here for each turn
         return [{"cast":(loc[0]-2,loc[1])}, data]
