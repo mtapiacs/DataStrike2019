@@ -23,7 +23,7 @@ class Robot1():
 
         if type == "Miner":
             return [{"gather":(loc[0]+1,loc[1])},data]  
-
+        
         #Random Movement
         x = loc[0] + random.choice([-1,0,1])
         y = loc[1] + random.choice([-1,0,1])

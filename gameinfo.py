@@ -53,8 +53,8 @@ class Game():
                 #self.handle_action(my_action, o.take_action(my_action, self.world_objects, "B", self.players[0]))
                 self.team_data[1] = my_action[1]
 
-        self.players[0].mod_resources(5)
-        self.players[1].mod_resources(5)
+        self.players[0].mod_resources(2)
+        self.players[1].mod_resources(2)
 
         #Discard dead robots
         self.remove_the_dead()
@@ -163,6 +163,13 @@ class Game():
 
     #Run after each round
     def update_game_stats(self, wo, red_p, blue_p):
+        self.game_stats["r_bots"] = 0
+        self.game_stats["b_bots"] = 0
+        self.game_stats["b_res"] = 0
+        self.game_stats["r_res"] = 0
+        self.game_stats["rocks"] = 0
+        self.game_stats["trees"] = 0
+
         for o in wo:
             if o.get_team() == "R":
                 self.game_stats["r_bots"] += 1
@@ -172,8 +179,8 @@ class Game():
                 self.game_stats["rocks"] += 1
             elif o.get_type() == "Tree":
                 self.game_stats["trees"] += 1
-        self.game_stats["blue_res"] = self.players[1].get_resources()
         self.game_stats["red_res"] = self.players[0].get_resources()
+        self.game_stats["blue_res"] = self.players[1].get_resources()
         if self.game_stats["round"] < 1000:
             self.game_stats["round"] += 1
 

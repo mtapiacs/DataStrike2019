@@ -42,8 +42,9 @@ class Soldier(Unit):
         self.ap = 30
         self.mp = 0
         self.move_max = 1
-        self.attack_max = 1
+        self.attack_max = 2
         self.vision = 5
+        self.cost = 40
         self.alive = True
         super(Soldier, self).__init__(t, loc, color, i)
 
@@ -119,11 +120,18 @@ class Base(Unit):
         if self.hp < 0:
             self.hp = 0
 
-    def build(self, type, color, loc, objects):
+    def build(self, type, color, loc, objects, player):
         canBuild = True
         for o in objects:
             if o.get_location() == loc:
                 canBuild = False
+
+        if type == "Soldier" and player.get_resources() < 40:
+            canBuild = False
+        if type == "Wizard" and player.get_resources() < 60:
+            canBuild = False
+        if type == "Miner" and player.get_resources() < 20:
+            canBuild = False
 
         if canBuild:
             if (0 <= int(loc[0]) < 20) and (0 <= int(loc[1]) < 20):
@@ -131,23 +139,29 @@ class Base(Unit):
                     if (abs(loc[0] - self.location[0]) <= self.build_max) and (abs(loc[1] - self.location[1]) <= self.build_max):
                         if type == "Soldier" and color == "B":
                             objects.append(Soldier("Soldier",loc,color,"BS"))
+                            player.mod_resources(-40)
                         elif type == "Soldier" and color == "R":
                             objects.append(Soldier("Soldier",loc,color,"RS"))
+                            player.mod_resources(-40)
                         elif type == "Wizard" and color == "B":
                             objects.append(Wizard("Wizard",loc,color,"BW"))
+                            player.mod_resources(-60)
                         elif type == "Wizard" and color == "R":
                             objects.append(Wizard("Wizard",loc,color,"RW"))
+                            player.mod_resources(-60)
                         elif type == "Miner" and color == "B":
                             objects.append(Miner("Miner",loc,color,"BM"))
+                            player.mod_resources(-20)
                         elif type == "Miner" and color == "R":
                             objects.append(Miner("Miner",loc,color,"RM"))
+                            player.mod_resources(-20)
 
                         return objects
 
     def take_action(self, list, objects, color, player):
         if self.alive:
             if 'build' in list[0]:
-                self.build(list[0]['build'][0], color ,list[0]['build'][1] ,objects)
+                self.build(list[0]['build'][0], color ,list[0]['build'][1] ,objects, player)
 
 class Wizard(Unit):
     def __init__(self, t, loc, color, i):
@@ -157,6 +171,7 @@ class Wizard(Unit):
         self.move_max = 3
         self.attack_max = 3
         self.vision = 8
+        self.cost = 60
         self.alive = True
         super(Wizard, self).__init__(t, loc, color, i)
 
@@ -219,6 +234,7 @@ class Miner(Unit):
         self.ap = 0
         self.mp = 0
         self.move_max = 1
+        self.cost = 40
         self.alive = True
         super(Miner, self).__init__(t, loc, color, i)
 
