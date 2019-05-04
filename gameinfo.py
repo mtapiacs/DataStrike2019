@@ -115,6 +115,12 @@ class Game():
                 return "B"    
         return "None"
 
+    def player_killed(self):
+        if self.game_stats["r_bots"] == 0 or self.game_stats["b_bots"] == 0:
+            return True
+        return False
+
+
     def log_round(self):
         file_string = ""
         file_string += "ROUND " + str(self.game_stats["round"]) + "\n"

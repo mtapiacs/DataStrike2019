@@ -29,7 +29,29 @@ class Robot1():
         '''
         Type your player code here for each turn
         '''
+
         
+        if type == "Base":
+            return [{"build":("Soldier",(loc[0]+1,loc[1]))}, data]
+
+        #Random Movement
+        x = loc[0] + random.choice([-1,0,1])
+        y = loc[1] + random.choice([-1,0,1])
+        return [{"move":(x,y)},data]
+
+
+
+class Robot2():
+    def __init__(self):
+        self.name = "Standard"
+        self.logfile = l.Log(self.name+".txt")
+        self.shouldILog = False
+
+    def my_turn(self, stats, team, loc, hp, type, data, world):
+        '''
+        Type your player code here for each turn
+        '''
+
         if self.shouldILog:
             self.logfile.add_to_file(str(stats["round"]) + ": I am a " + type + "\n")
 
@@ -169,25 +191,6 @@ class Robot1():
         x = myloc[0] + random.choice([-1,0,1])
         y = myloc[1] + random.choice([-1,0,1])
         return (x,y)    
-
-
-class Robot2():
-    def __init__(self):
-        self.name = "Standard"
-        self.logfile = l.Log(self.name+".txt")
-
-    def my_turn(self, stats, team, loc, hp, type, data, world):
-        '''
-        Type your player code here for each turn
-        '''
-
-        if type == "Base":
-            return [{"build":("Soldier",(loc[0]+1,loc[1]))}, data]
-
-        #Random Movement
-        x = loc[0] + random.choice([-1,0,1])
-        y = loc[1] + random.choice([-1,0,1])
-        return [{"move":(x,y)},data]
         
 
 

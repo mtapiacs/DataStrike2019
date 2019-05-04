@@ -158,7 +158,10 @@ while not done:
         #campaign.run_round()
         #screen.blit(image_list[0],(0, y_test))
         #y_test += 40
-        round_count += 1
+        if campaign.player_killed():
+            round_count = 300
+        else:
+            round_count += 1
         
     pygame.display.flip()  
 
