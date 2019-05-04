@@ -21,12 +21,17 @@ loc	tuple	Robot Location, (x, y)
 hp	int	Robot health
 type	str	Robot type, "Soldier" "Base" etc
 data	list	Persistent data from one round to another
+world	list	All objects on the map
 
 Action	Robot Types	Description	How to Return
 Move	S, M, W	Move robot on map	return [{"move":(x,y)},data]
 Attack	S	Attack another robot	return [{"strike":(x,y)},data]
 Cast	W	Attack another robot	return [{"cast":(x,y)},data]
-Gather	M	Gather res from trees and rocks	return [{"gather":(x,y)},data]
+Gather	M	Gather 5 res from trees and rocks	return [{"gather":(x,y)},data]
 Build	B	Build another robot	return [{"build":(type,(x,y))},data]
+
+Resource	Materials to Gather
+Rock	300
+Tree	50
 
 

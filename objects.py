@@ -265,10 +265,21 @@ class Miner(Unit):
         return False
 
     def gather(self, loc, objects, player):
-        for o in objects:
-            if o.get_location() == loc:
-                if o.get_type() == "Rock" or o.get_type() == "Tree":
-                    o.harvest(20, player)
+        validLoc = False
+        if (0 <= loc[0] < 20) and (0 <= loc[1] < 20):
+            if (int(loc[0]) == loc[0]) and (int(loc[1]) == loc[1]):
+                if (abs(loc[0] - self.location[0]) <= 2) and (abs(loc[1] - self.location[1]) <= 2):
+                    validLoc = True
+
+        canGather = False
+        if validLoc:
+            for o in objects:
+                if o.get_location() == loc:
+                    if o.get_type() in ["Rock","Tree"]:
+                        o.harvest(5, player)
+                        canGather = True
+
+        return canGather
 
     def take_action(self, list, objects, color, player):
         if self.alive:
@@ -284,14 +295,14 @@ class Resource(GameObject):
 
 class Rock(Resource):
     def __init__(self, t, loc, color, i):
-        self.minerals = 400
+        self.minerals = 300
         super(Rock, self).__init__(t, loc, color, i)
 
     def harvest(self, amount, player):
-        if self.minerals >= 20:
+        if self.minerals >= 5:
             self.minerals -= amount
             player.mod_resources(amount)
-        elif 0 < self.minerals < 20:
+        elif 0 < self.minerals < 5:
             player.mod_resources(self.minerals)
             self.minerals = 0
     
@@ -300,14 +311,14 @@ class Rock(Resource):
     
 class Tree(Resource):
     def __init__(self, t, loc, color, i):
-        self.minerals = 200
+        self.minerals = 50
         super(Tree, self).__init__(t, loc, color, i)
 
     def harvest(self, amount, player):
-        if self.minerals >= 20:
+        if self.minerals >= 5:
             self.minerals -= amount
             player.mod_resources(amount)
-        elif 0 < self.minerals < 20:
+        elif 0 < self.minerals < 5:
             player.mod_resources(self.minerals)
             self.minerals = 0
 

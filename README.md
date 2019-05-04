@@ -4,9 +4,12 @@ Overview:
 The classic Blue and Red factions are warring again! Defeat your enemies 
 on the battlefield by gathering resources and building a larger army
 than your opponent. You have 300 rounds to try and defeat your opponent. 
-At that point, if anyone still has robots left on the battlefield, the tie
-breakers will be in the following order: 1.) Team with the most units,
-2.) Team with the most resources, 3.) Coin flip. 
+You begin with 150 resources, and are given 1 additional resource every round.
+To build your army faster, you will also want to gather resources from 
+trees/rocks laying around the world. After the rounds are over, if anyone 
+still has robots left on the battlefield, the tie breakers will be in the 
+following order: 1.) Team with the most units, 2.) Team with the most 
+resources, 3.) Coin flip. 
 
 How to Start Game:
 Execute the python file named GUI_main.py
@@ -39,6 +42,7 @@ The parameters for the my_turn() function are as follows:
 | hp              | int      | Robot health                              |
 | type            | str      | Robot type, "Soldier" "Base" etc          |
 | data            | list     | Persistent data from one round to another |
+| world           | list     | All objects on the map                    |
 +-----------------+----------+-------------------------------------------+
 
 Character Stats
@@ -52,17 +56,26 @@ Character Stats
 | Wizard    |  70 |  0 | 60 |        3 |          3 |      8 | 60   |
 +-----------+-----+----+----+----------+------------+--------+------+
 
+Resources
+
++----------+---------------------+
+| Resource | Materials to Gather |
++----------+---------------------+
+| Rock     |                 300 |
+| Tree     |                  50 |
++----------+---------------------+
+
 What actions do I have access to?
 
-+--------+-------------+---------------------------------+------------------------------------+
-| Action | Robot Types |           Description           |           How to Return            |
-+--------+-------------+---------------------------------+------------------------------------+
-| Move   | S, M, W     | Move robot on map               | return [{"move":(x,y)},data]       |
-| Attack | S           | Attack another robot            | return [{"strike":(x,y)},data]     |
-| Cast   | W           | Attack another robot            | return [{"cast":(x,y)},data]       |
-| Gather | M           | Gather res from trees and rocks | return [{"gather":(x,y)},data]     |
-| Build  | B           | Build another robot             | return [{"build":(type,(x,y))},data] |
-+--------+-------------+---------------------------------+------------------------------------+
++--------+-------------+-----------------------------------+--------------------------------------+
+| Action | Robot Types |            Description            |            How to Return             |
++--------+-------------+-----------------------------------+--------------------------------------+
+| Move   | S, M, W     | Move robot on map                 | return [{"move":(x,y)},data]         |
+| Attack | S           | Attack another robot              | return [{"strike":(x,y)},data]       |
+| Cast   | W           | Attack another robot              | return [{"cast":(x,y)},data]         |
+| Gather | M           | Gather 5 res from trees and rocks | return [{"gather":(x,y)},data]       |
+| Build  | B           | Build another robot               | return [{"build":(type,(x,y))},data] |
++--------+-------------+-----------------------------------+--------------------------------------+
 
 Classes:
     -GameObject

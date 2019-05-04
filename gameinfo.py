@@ -6,19 +6,18 @@ import random
 
 class Game():
     def __init__(self):
-        self.game_map = world.Map(20, "./maps/tester.txt")
+        self.game_map = world.Map(20, "./maps/standard.txt")
         self.world_objects = self.game_map.get_init_objects()
-        self.players = [Player(100, "R", "Player 1"), Player(100, "B", "Player 2")]
+        #Red is first, blue is second
+        #Randomize bots
+        self.bot_list = self.determine_colors()
+        self.players = [Player(150, "R", self.bot_list[0].name), Player(150, "B", self.bot_list[1].name)]
         self.game_stats = {}
         self.reset_stats()
         self.update_game_stats(self.world_objects,self.players[1],self.players[0])
         self.team_data = [[],[]]
-        #Red is first, blue is second
-        #Randomize bots
-        self.bot_list = self.determine_colors()
-        #self.bot_list = [bot.Robot1(), bot.Robot2()]
-        #self.update_game_stats(world_objects)
         self.logfile = l.Log("gamelog.txt")
+        self.shouldIlog = False
 
     
     def determine_colors(self):
@@ -29,6 +28,9 @@ class Game():
         else:
             bots = [bot.Robot2(), bot.Robot1()]
             return bots
+
+    def get_player_names(self):
+        return (self.bot_list[0].name,self.bot_list[1].name)
     
 
     def run_round(self):
@@ -39,7 +41,7 @@ class Game():
             if o.get_team() == "R":
                 #Run player code to determine action
                 my_action = self.bot_list[0].my_turn(gs, o.get_team(),o.get_location(),o.get_hp(), o.get_type(), self.team_data[0], wo)
-                o.take_action(my_action, self.world_objects, "R", self.players[1])
+                o.take_action(my_action, self.world_objects, "R", self.players[0])
                 #Update game elements if action is successful (not needed for movement)
                 #self.handle_action(my_action, o.take_action(my_action, self.world_objects, "R", self.players[0]))
                 self.team_data[0] = my_action[1]
@@ -53,14 +55,15 @@ class Game():
                 #self.handle_action(my_action, o.take_action(my_action, self.world_objects, "B", self.players[0]))
                 self.team_data[1] = my_action[1]
 
-        self.players[0].mod_resources(2)
-        self.players[1].mod_resources(2)
+        self.players[0].mod_resources(1)
+        self.players[1].mod_resources(1)
 
         #Discard dead robots
         self.remove_the_dead()
 
         self.update_game_stats(self.world_objects, self.bot_list[0], self.bot_list[1])
-        self.log_round()
+        if self.shouldIlog:
+            self.log_round()
 
     def remove_the_dead(self):
         round_kill_count = 0
@@ -96,7 +99,7 @@ class Game():
             return "B"
         if self.game_stats["b_bots"] == 0:
             return "R"        
-        if self.game_stats["round"] == 300:
+        if self.game_stats["round"] >= 300:
             if self.game_stats["b_bots"] > self.game_stats["r_bots"]:
                 return "B"
             if self.game_stats["r_bots"] > self.game_stats["b_bots"]:

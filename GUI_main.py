@@ -62,6 +62,7 @@ def update_hud():
     start_col = 10
     inc_row = 35
     statlist = campaign.get_game_stats()
+    names = campaign.get_player_names()
 
     white = (255, 255, 255)
     red = (255, 0, 0)
@@ -85,6 +86,11 @@ def update_hud():
     start_col += inc_row
 
     #RED
+
+    rname = hudfont.render(names[0], False, red)
+    hud.blit(rname,(start_row,start_col))
+    start_col += inc_row
+
     rbot_txt = "Bots: " + str(statlist["r_bots"])
     rbots = hudfont.render(rbot_txt, False, red)
     hud.blit(rbots,(start_row,start_col))
@@ -99,6 +105,10 @@ def update_hud():
     start_col += inc_row
 
     #BLUE
+    bname = hudfont.render(names[1], False, blue)
+    hud.blit(bname,(start_row,start_col))
+    start_col += inc_row
+
     bbot_txt = "Bots: " + str(statlist["b_bots"])
     bbots = hudfont.render(bbot_txt, False, blue)
     hud.blit(bbots,(start_row,start_col))
@@ -137,7 +147,7 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
     
-    if round_count <= 300:
+    if round_count < 300:
         campaign.run_round()
         screen.fill(bg_color)
         game_objects_import = campaign.get_game_objects()
@@ -152,5 +162,5 @@ while not done:
         
     pygame.display.flip()  
 
-    clock.tick(4)
+    clock.tick(5)
 
