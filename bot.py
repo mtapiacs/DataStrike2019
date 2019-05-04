@@ -21,7 +21,7 @@ self.logfile.add_to_file("Sample String to Add")
 class Robot1():
 
     def __init__(self):
-        self.name = "Spicy"
+        self.name = "Standard"
         self.logfile = l.Log(self.name+".txt")
         self.shouldILog = False
 
@@ -43,9 +43,9 @@ class Robot1():
 
 class Robot2():
     def __init__(self):
-        self.name = "Standard"
+        self.name = "Spicy"
         self.logfile = l.Log(self.name+".txt")
-        self.shouldILog = False
+        self.shouldILog = True
 
     def my_turn(self, stats, team, loc, hp, type, data, world):
         '''
@@ -121,8 +121,9 @@ class Robot2():
                 return [{"move":myMoveLoc},data]         
         if type == "Soldier" and stats["round"]>=200:
             #MOVE TOWARDS BASES
-            myMoveLoc = self.move_toward(world, loc, eBases[0])
-            return [{"move":myMoveLoc},data]      
+            if len(eBases) > 0:
+                myMoveLoc = self.move_toward(world, loc, eBases[0])
+                return [{"move":myMoveLoc},data]      
         
         #Random Movement
         x = loc[0] + random.choice([-1,0,1])

@@ -126,11 +126,11 @@ class Base(Unit):
             if o.get_location() == loc:
                 canBuild = False
 
-        if type == "Soldier" and player.get_resources() < 40:
+        if type == "Soldier" and player.get_resources() < 60:
             canBuild = False
-        if type == "Wizard" and player.get_resources() < 60:
+        if type == "Wizard" and player.get_resources() < 90:
             canBuild = False
-        if type == "Miner" and player.get_resources() < 20:
+        if type == "Miner" and player.get_resources() < 40:
             canBuild = False
 
         if canBuild:
@@ -139,22 +139,22 @@ class Base(Unit):
                     if (abs(loc[0] - self.location[0]) <= self.build_max) and (abs(loc[1] - self.location[1]) <= self.build_max):
                         if type == "Soldier" and color == "B":
                             objects.append(Soldier("Soldier",loc,color,"BS"))
-                            player.mod_resources(-40)
+                            player.mod_resources(-60)
                         elif type == "Soldier" and color == "R":
                             objects.append(Soldier("Soldier",loc,color,"RS"))
-                            player.mod_resources(-40)
+                            player.mod_resources(-60)
                         elif type == "Wizard" and color == "B":
                             objects.append(Wizard("Wizard",loc,color,"BW"))
-                            player.mod_resources(-60)
+                            player.mod_resources(-90)
                         elif type == "Wizard" and color == "R":
                             objects.append(Wizard("Wizard",loc,color,"RW"))
-                            player.mod_resources(-60)
+                            player.mod_resources(-90)
                         elif type == "Miner" and color == "B":
                             objects.append(Miner("Miner",loc,color,"BM"))
-                            player.mod_resources(-20)
+                            player.mod_resources(-40)
                         elif type == "Miner" and color == "R":
                             objects.append(Miner("Miner",loc,color,"RM"))
-                            player.mod_resources(-20)
+                            player.mod_resources(-40)
 
                         return objects
 
