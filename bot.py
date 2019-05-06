@@ -145,6 +145,7 @@ class Robot2():
                 if mineralDistance < shortest:
                     nearestMineralLoc = mineralloc
 
+            # index out of range if resources run out
             if abs(nearestMineralLoc[0] - loc[0]) <= 2 and abs(nearestMineralLoc[1] - loc[1]) <= 2:
                 # GATHER!
                 return [{"gather": nearestMineralLoc}, data]

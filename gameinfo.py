@@ -7,9 +7,9 @@ import random
 
 class Game():
     def __init__(self):
-        self.game_map = world.Map(20, "./maps/standard.txt")
+        self.game_map = world.Map(20, "./maps/tester.txt")
         self.world_objects = self.game_map.get_init_objects()
-        #Red is first, blue is second
+        # Red is first, blue is second
         # Randomize bots
         self.bot_list = self.determine_colors()
         self.players = [Player(150, "R", self.bot_list[0].name), Player(
@@ -46,7 +46,7 @@ class Game():
                 o.take_action(my_action, self.world_objects,
                               "R", self.players[0])
                 # Update game elements if action is successful (not needed for movement)
-                #self.handle_action(my_action, o.take_action(my_action, self.world_objects, "R", self.players[0]))
+                # self.handle_action(my_action, o.take_action(my_action, self.world_objects, "R", self.players[0]))
                 self.team_data[0] = my_action[1]
 
         # Blue Turns
@@ -57,7 +57,7 @@ class Game():
                 ), o.get_location(), o.get_hp(), o.get_type(), self.team_data[1], wo)
                 o.take_action(my_action, self.world_objects,
                               "B", self.players[1])
-                #self.handle_action(my_action, o.take_action(my_action, self.world_objects, "B", self.players[0]))
+                # self.handle_action(my_action, o.take_action(my_action, self.world_objects, "B", self.players[0]))
                 self.team_data[1] = my_action[1]
 
         self.players[0].mod_resources(1)
