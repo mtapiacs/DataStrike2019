@@ -1,9 +1,10 @@
 import random
 
+
 class GameObject():
-    #Type: Base, Soldier, Wizard, Miner, Rock, Tree
-    #Location: (x,y)
-    #Team: "R", "B", or None
+    # Type: Base, Soldier, Wizard, Miner, Rock, Tree
+    # Location: (x,y)
+    # Team: "R", "B", or None
     def __init__(self, t, loc, color, i):
         self.id = random.randint(100, 1000)
         self.type = t
@@ -28,14 +29,16 @@ class GameObject():
 
     def set_icon(self, i):
         self.icon = i
-    
+
     def get_location_string(self):
         return "(" + str(self.location[0]) + "," + str(self.location[1]) + ")"
+
 
 class Unit(GameObject):
     def __init__(self, t, loc, color, i):
         super(Unit, self).__init__(t, loc, color, i)
-    
+
+
 class Soldier(Unit):
     def __init__(self, t, loc, color, i):
         self.hp = 130
@@ -49,7 +52,7 @@ class Soldier(Unit):
         super(Soldier, self).__init__(t, loc, color, i)
 
     def get_hp(self):
-        return self.hp  
+        return self.hp
 
     def modify_hp(self, mod):
         self.hp += mod
@@ -59,8 +62,8 @@ class Soldier(Unit):
             self.hp = 0
 
     def move(self, loc, objects):
-        #Checks if various conditions are met
-        #Returns True if the move was successful, otherwise returns False
+        # Checks if various conditions are met
+        # Returns True if the move was successful, otherwise returns False
         canMove = True
         for o in objects:
             if o.get_location() == loc:
@@ -75,19 +78,19 @@ class Soldier(Unit):
         return False
 
     def strike(self, loc, objects):
-        #Checks for valid location
+        # Checks for valid location
         validLoc = False
         if (0 <= loc[0] < 20) and (0 <= loc[1] < 20):
             if (int(loc[0]) == loc[0]) and (int(loc[1]) == loc[1]):
                 if (abs(loc[0] - self.location[0]) <= self.attack_max) and (abs(loc[1] - self.location[1]) <= self.attack_max):
                     validLoc = True
 
-        #Checks if object can be attacked
+        # Checks if object can be attacked
         canStrike = False
         if validLoc:
             for o in objects:
                 if o.get_location() == loc:
-                    if o.get_type() in ["Soldier","Wizard","Miner","Base"]:
+                    if o.get_type() in ["Soldier", "Wizard", "Miner", "Base"]:
                         o.modify_hp(-self.ap)
                         canStrike = True
 
@@ -100,6 +103,7 @@ class Soldier(Unit):
             elif 'strike' in list[0]:
                 self.strike(list[0]['strike'], objects)
 
+
 class Base(Unit):
     def __init__(self, t, loc, color, i):
         self.hp = 300
@@ -111,7 +115,7 @@ class Base(Unit):
         super(Base, self).__init__(t, loc, color, i)
 
     def get_hp(self):
-        return self.hp  
+        return self.hp
 
     def modify_hp(self, mod):
         self.hp += mod
@@ -138,22 +142,24 @@ class Base(Unit):
                 if (int(loc[0]) == loc[0]) and (int(loc[1]) == loc[1]):
                     if (abs(loc[0] - self.location[0]) <= self.build_max) and (abs(loc[1] - self.location[1]) <= self.build_max):
                         if type == "Soldier" and color == "B":
-                            objects.append(Soldier("Soldier",loc,color,"BS"))
+                            objects.append(
+                                Soldier("Soldier", loc, color, "BS"))
                             player.mod_resources(-60)
                         elif type == "Soldier" and color == "R":
-                            objects.append(Soldier("Soldier",loc,color,"RS"))
+                            objects.append(
+                                Soldier("Soldier", loc, color, "RS"))
                             player.mod_resources(-60)
                         elif type == "Wizard" and color == "B":
-                            objects.append(Wizard("Wizard",loc,color,"BW"))
+                            objects.append(Wizard("Wizard", loc, color, "BW"))
                             player.mod_resources(-90)
                         elif type == "Wizard" and color == "R":
-                            objects.append(Wizard("Wizard",loc,color,"RW"))
+                            objects.append(Wizard("Wizard", loc, color, "RW"))
                             player.mod_resources(-90)
                         elif type == "Miner" and color == "B":
-                            objects.append(Miner("Miner",loc,color,"BM"))
+                            objects.append(Miner("Miner", loc, color, "BM"))
                             player.mod_resources(-40)
                         elif type == "Miner" and color == "R":
-                            objects.append(Miner("Miner",loc,color,"RM"))
+                            objects.append(Miner("Miner", loc, color, "RM"))
                             player.mod_resources(-40)
 
                         return objects
@@ -161,7 +167,9 @@ class Base(Unit):
     def take_action(self, list, objects, color, player):
         if self.alive:
             if 'build' in list[0]:
-                self.build(list[0]['build'][0], color ,list[0]['build'][1] ,objects, player)
+                self.build(list[0]['build'][0], color, list[0]
+                           ['build'][1], objects, player)
+
 
 class Wizard(Unit):
     def __init__(self, t, loc, color, i):
@@ -176,7 +184,7 @@ class Wizard(Unit):
         super(Wizard, self).__init__(t, loc, color, i)
 
     def get_hp(self):
-        return self.hp  
+        return self.hp
 
     def modify_hp(self, mod):
         self.hp += mod
@@ -186,8 +194,8 @@ class Wizard(Unit):
             self.hp = 0
 
     def move(self, loc, objects):
-        #Checks if various conditions are met
-        #Returns True if the move was successful, otherwise returns False
+        # Checks if various conditions are met
+        # Returns True if the move was successful, otherwise returns False
         canMove = True
         for o in objects:
             if o.get_location() == loc:
@@ -202,19 +210,19 @@ class Wizard(Unit):
         return False
 
     def cast(self, loc, objects):
-        #Checks for valid location
+        # Checks for valid location
         validLoc = False
         if (0 <= loc[0] < 20) and (0 <= loc[1] < 20):
             if (int(loc[0]) == loc[0]) and (int(loc[1]) == loc[1]):
                 if (abs(loc[0] - self.location[0]) <= self.attack_max) and (abs(loc[1] - self.location[1]) <= self.attack_max):
                     validLoc = True
 
-        #Checks if object can be attacked
+        # Checks if object can be attacked
         canCast = False
         if validLoc:
             for o in objects:
                 if o.get_location() == loc:
-                    if o.get_type() in ["Soldier","Wizard","Miner","Base"]:
+                    if o.get_type() in ["Soldier", "Wizard", "Miner", "Base"]:
                         o.modify_hp(-self.mp)
                         canCast = True
 
@@ -239,7 +247,7 @@ class Miner(Unit):
         super(Miner, self).__init__(t, loc, color, i)
 
     def get_hp(self):
-        return self.hp  
+        return self.hp
 
     def modify_hp(self, mod):
         self.hp += mod
@@ -249,8 +257,8 @@ class Miner(Unit):
             self.hp = 0
 
     def move(self, loc, objects):
-        #Checks if various conditions are met
-        #Returns True if the move was successful, otherwise returns False
+        # Checks if various conditions are met
+        # Returns True if the move was successful, otherwise returns False
         canMove = True
         for o in objects:
             if o.get_location() == loc:
@@ -275,7 +283,7 @@ class Miner(Unit):
         if validLoc:
             for o in objects:
                 if o.get_location() == loc:
-                    if o.get_type() in ["Rock","Tree"]:
+                    if o.get_type() in ["Rock", "Tree"]:
                         o.harvest(5, player)
                         canGather = True
 
@@ -288,10 +296,11 @@ class Miner(Unit):
             if 'gather' in list[0]:
                 self.gather(list[0]['gather'], objects, player)
 
-    
+
 class Resource(GameObject):
     def __init__(self, t, loc, color, i):
         super(Resource, self).__init__(t, loc, color, i)
+
 
 class Rock(Resource):
     def __init__(self, t, loc, color, i):
@@ -305,10 +314,11 @@ class Rock(Resource):
         elif 0 < self.minerals < 5:
             player.mod_resources(self.minerals)
             self.minerals = 0
-    
+
     def get_minerals(self):
         return self.minerals
-    
+
+
 class Tree(Resource):
     def __init__(self, t, loc, color, i):
         self.minerals = 50
@@ -324,9 +334,3 @@ class Tree(Resource):
 
     def get_minerals(self):
         return self.minerals
-
-        
-
-
-
-

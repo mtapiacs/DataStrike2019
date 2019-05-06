@@ -1,5 +1,6 @@
 import objects
 
+
 class Map():
     def __init__(self, side, user_map):
         self.init_objects = []
@@ -15,7 +16,7 @@ class Map():
                 temp_list = []
                 row = line.rstrip().split(" ")
                 for item in row:
-                    #Add in for CLI debugging
+                    # Add in for CLI debugging
                     if item == "--":
                         temp_list.append(None)
                     else:
@@ -25,28 +26,38 @@ class Map():
     def init_object_creation(self, lo):
         for row in range(len(lo)):
             for col in range(len(lo[0])):
-                #Add objects to be returned
+                # Add objects to be returned
                 item = lo[row][col]
                 if item == "QU":
-                    self.init_objects.append(objects.Rock("Rock",(col, row),None,"QU"))
+                    self.init_objects.append(objects.Rock(
+                        "Rock", (col, row), None, "QU"))
                 elif item == "TR":
-                    self.init_objects.append(objects.Tree("Tree",(col, row), None, "TR"))
+                    self.init_objects.append(objects.Tree(
+                        "Tree", (col, row), None, "TR"))
                 elif item == "BB":
-                    self.init_objects.append(objects.Base("Base",(col,row),"B","BB"))
+                    self.init_objects.append(
+                        objects.Base("Base", (col, row), "B", "BB"))
                 elif item == "BS":
-                    self.init_objects.append(objects.Soldier("Soldier",(col,row),"B","BS"))
+                    self.init_objects.append(objects.Soldier(
+                        "Soldier", (col, row), "B", "BS"))
                 elif item == "BW":
-                    self.init_objects.append(objects.Wizard("Wizard",(col,row),"B","BW"))
+                    self.init_objects.append(objects.Wizard(
+                        "Wizard", (col, row), "B", "BW"))
                 elif item == "BM":
-                    self.init_objects.append(objects.Miner("Miner",(col,row),"B","BM"))
+                    self.init_objects.append(objects.Miner(
+                        "Miner", (col, row), "B", "BM"))
                 elif item == "RB":
-                    self.init_objects.append(objects.Base("Base",(col,row),"R","RB"))
+                    self.init_objects.append(
+                        objects.Base("Base", (col, row), "R", "RB"))
                 elif item == "RS":
-                    self.init_objects.append(objects.Soldier("Soldier",(col,row),"R","RS"))
+                    self.init_objects.append(objects.Soldier(
+                        "Soldier", (col, row), "R", "RS"))
                 elif item == "RW":
-                    self.init_objects.append(objects.Wizard("Wizard",(col,row),"R","RW"))
+                    self.init_objects.append(objects.Wizard(
+                        "Wizard", (col, row), "R", "RW"))
                 elif item == "RM":
-                    self.init_objects.append(objects.Miner("Miner",(col,row),"R","RM"))
+                    self.init_objects.append(objects.Miner(
+                        "Miner", (col, row), "R", "RM"))
 
     def get_init_objects(self):
         return self.init_objects
@@ -57,7 +68,7 @@ class Map():
             for col in range(len(self.layout[0])):
                 locs.append([row, col])
 
-    #Overrides whatever is in that place
+    # Overrides whatever is in that place
     def place_object(self, object_icon, location):
         self.layout[location[0]][location[1]] = object_icon
 
@@ -72,5 +83,3 @@ class Map():
                 else:
                     print(item, end=' ')
             print("")
-
-

@@ -5,7 +5,7 @@ class Player():
         self.team_name = name
 
     def player_turn(self, game_stats):
-        #In PROGRESS
+        # In PROGRESS
         pass
 
     def get_resources(self):

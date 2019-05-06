@@ -1,16 +1,16 @@
-#Current Step:
-#Creating game objects and seeing if they are set with the correct properties
+# Current Step:
+# Creating game objects and seeing if they are set with the correct properties
 
-#import classes
+# import classes
 from gameinfo import Game
 
 
-#create game instance
+# create game instance
 campaign = Game()
-#campaign.print_game_map()
-#print(campaign.get_game_objects())
-#print(campaign.get_game_stats())
-#campaign.get_all_object_info()
+# campaign.print_game_map()
+# print(campaign.get_game_objects())
+# print(campaign.get_game_stats())
+# campaign.get_all_object_info()
 
 for x in range(len(campaign.world_objects)):
     print(campaign.world_objects[x])
