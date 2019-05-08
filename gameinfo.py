@@ -7,7 +7,7 @@ import random
 
 class Game():
     def __init__(self):
-        self.game_map = world.Map(20, "./maps/tester.txt")
+        self.game_map = world.Map(20, "./maps/standard.txt")
         self.world_objects = self.game_map.get_init_objects()
         # Red is first, blue is second
         # Randomize bots
